@@ -10,7 +10,11 @@ for k,src in {"dazzle-mass":G+"/Artwork_Framed-1.jpg","disassembly":G+"/Artwork_
     im=_I.open(src).convert("RGB"); im.thumbnail((1800,1800)); im.save(os.path.join(S,"img",k+".jpg"),quality=86)
 works=[w for w in works if w[0]!="survey-figure"]
 
-W = os.path.join(S, "web"); os.makedirs(os.path.join(W, "img"), exist_ok=True)
+BARE = bool(os.environ.get("BARE"))
+if BARE:
+    COPY = dict(COPY, lede="I apply the machine as a means to express form.", brief=[], about_lede="", about=[], process_lede="", process=[])
+    descs = ["" for _ in works]
+W = os.path.join(S, "web_bare" if BARE else "web"); os.makedirs(os.path.join(W, "img"), exist_ok=True)
 for w in works:
     shutil.copy(os.path.join(S, "img", w[0] + ".jpg"), os.path.join(W, "img", w[0] + ".jpg"))
 
@@ -25,6 +29,11 @@ cards = "\n".join(f'''<button class="card{' photo' if w['photo'] else ''}{' wide
 
 trows = "".join(f"<tr><td>{i+1}</td><td>{html.escape(w['title'])}</td><td>{w['year']}</td><td>{html.escape(w['medium'])}</td><td>{w['size']}</td><td>{w['price']}</td></tr>" for i, w in enumerate(data))
 sp = re.findall(r"<p>.*?</p>", statement)
+
+ABOUT = f'''<section class="s" id="about" style="background:var(--bg2)"><div class="wrap">
+  <div class="hd"><h2 class="cp">About</h2><span class="lab">Evan Emery · Phoenix, Arizona</span></div>
+  <div class="about"><p class="lede">{COPY["about_lede"]}</p><div class="body">{P(COPY["about"])}</div></div>
+</div></section>'''
 
 page = f'''<title>Evan Emery Selected Works</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Space+Grotesk:wght@400;500&family=Space+Mono:wght@400;700&display=swap">
@@ -83,6 +92,9 @@ section.s {{ padding-block:56px; }}
 .card.photo img, .card.wide img {{ width:100%; height:100%; object-fit:cover; box-shadow:none; }}
 .lb .frame.raw {{ background:none; border:0; padding:0; box-shadow:6px 6px 0 #cfccc3; }}
 .hint {{ margin-top:18px; }}
+.lb .desc:empty {{ display:none; }}
+.brief.bare .in {{ grid-template-columns:1fr; }}
+.brief.bare .lede {{ font-size:clamp(30px, 4.2vw, 56px); max-width:22ch; }}
 /* lightbox */
 .lb {{ position:fixed; inset:0; z-index:50; background:var(--bg2); display:grid; grid-template-columns:340px 1fr; overflow:auto; }}
 .lb .bg {{ position:absolute; inset:0; pointer-events:none;
@@ -148,7 +160,7 @@ footer .in {{ max-width:1400px; margin:0 auto; padding:22px 24px; display:flex; 
 </style>
 
 <nav class="nav"><div class="in"><span class="brand cp">EVAN EMERY</span>
-<ul><li><a href="#works">Works</a></li><li><a href="#process">Process</a></li><li><a href="#about">About</a></li><li><a href="#list">Available works</a></li><li><a href="#list">Contact</a></li></ul></div></nav>
+<ul><li><a href="#works">Works</a></li><li><a href="#process">Process</a></li>{'' if BARE else '<li><a href="#about">About</a></li>'}<li><a href="#list">Available works</a></li><li><a href="#list">Contact</a></li></ul></div></nav>
 
 <header class="hero">
   <img src="img/deep-blue.jpg" alt="Deep Blue, cyanotype print, 2025"><div class="shade"></div>
@@ -158,9 +170,9 @@ footer .in {{ max-width:1400px; margin:0 auto; padding:22px 24px; display:flex; 
   </div>
 </header>
 
-<section class="brief" id="statement"><div class="in">
+<section class="brief{" bare" if BARE else ""}" id="statement"><div class="in">
   <div><p class="lede">{COPY["lede"]}</p><div class="lab">Artist statement</div></div>
-  <div class="body">{P(COPY["brief"])}</div>
+  {'' if BARE else '<div class="body">' + P(COPY["brief"]) + '</div>'}
 </div></section>
 
 <section class="s" id="works"><div class="wrap">
@@ -176,17 +188,13 @@ footer .in {{ max-width:1400px; margin:0 auto; padding:22px 24px; display:flex; 
   <div class="proc">
     <div class="vid"><video id="btsVideo" src="bts.mp4" poster="img/bts-poster.jpg" controls playsinline preload="metadata"></video></div>
     <div class="ptxt">
-      <h3 class="cp">{COPY["process_lede"]}</h3>
-      {P(COPY["process"])}
+      {'' if BARE else '<h3 class="cp">' + COPY["process_lede"] + '</h3>' + P(COPY["process"])}
       <p class="lab" style="color:#b9bec9; margin-top:18px">Press play · 90 seconds · sound on</p>
     </div>
   </div>
 </div></section>
 
-<section class="s" id="about" style="background:var(--bg2)"><div class="wrap">
-  <div class="hd"><h2 class="cp">About</h2><span class="lab">Evan Emery · Phoenix, Arizona</span></div>
-  <div class="about"><p class="lede">{COPY["about_lede"]}</p><div class="body">{P(COPY["about"])}</div></div>
-</div></section>
+{"" if BARE else ABOUT}
 
 <section class="s" id="list"><div class="wrap">
   <div class="hd"><h2 class="cp">Available works</h2><span class="lab">Retail prices · framed originals and prints</span></div>
