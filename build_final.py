@@ -154,13 +154,13 @@ for i, ((k, t, y, m, sz, pr, tools, an, wide), d) in enumerate(zip(works, descs)
 tbody = "".join("<tr>" + "".join(f"<td>{inline(c)}</td>" for c in r) + "</tr>" for r in rows[1:])
 thead = "".join(f"<th>{c}</th>" for c in rows[0])
 mini = "".join(f'<img src="img/{w[0]}.jpg">' for w in works)
-ft = '<div class="ft"><span>Evan Emery · Phoenix, Arizona</span><span>b-art gallery · Call to Artists · October 2026</span></div>'
+ft = '<div class="ft"><span>Evan Emery · Phoenix, Arizona</span><span>Selected works · 2024 — 2025</span></div>'
 
 # split statement: first 4 paragraphs col 1-2, rest col 3
 sp = re.findall(r"<p>.*?</p>", statement)
 c1, c2, c3 = "".join(sp[:3]), "".join(sp[3:5]), "".join(sp[5:])
 
-html_doc = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Evan Emery — Selected Works — b-art gallery submission</title>
+html_doc = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Evan Emery — Selected Works — </title>
 <link rel="stylesheet" href="fonts/fonts-local.css"><style>{CSS}</style></head><body>
 <section class="page hero"><img src="img/deep-blue.jpg"><div class="shade"></div>
   <div class="tag">Call to Artists · Art, Architecture &amp; Interior Design · October 2026</div>
@@ -194,7 +194,7 @@ html_doc = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title
   {ft}
 </section>
 </body></html>'''
-hp = os.path.join(S, "EvanEmery_SelectedWorks_bart_2026-10.html")
+hp = os.path.join(S, "EvanEmery_SelectedWorks.html")
 open(hp, "w", encoding="utf-8").write(html_doc)
 pdf = hp[:-5] + ".pdf"
 chrome = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
