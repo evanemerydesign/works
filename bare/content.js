@@ -17,6 +17,10 @@ window.CONTENT = {
   "process": [],
   "process_note": "Press play · 90 seconds · sound on",
   "works_label": "Nine works · 2024 — 2025 · all available",
+  "insitu_label": "Framed and on the wall",
+  "hide_thesis": true,
+  "toggle_art": "Artwork",
+  "toggle_ctx": "In situ",
   "list_label": "Retail prices · framed originals and prints",
   "footer_left": "Evan Emery · Phoenix, Arizona",
   "footer_right": "Selected works · 2024 — 2025",
@@ -32,7 +36,9 @@ window.CONTENT = {
       "output": "CNC pen plotter",
       "wide": true,
       "photo": false,
-      "description": ""
+      "description": "",
+      "context": "img/ctx-duality.jpg",
+      "context_caption": "Duality, framed"
     },
     {
       "id": "deep-blue",
@@ -45,7 +51,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": ""
+      "description": "",
+      "context": "img/ctx-deep-blue.jpg",
+      "context_caption": "Deep Blue, framed"
     },
     {
       "id": "distant-blues",
@@ -58,7 +66,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": ""
+      "description": "",
+      "context": "img/ctx-distant-blues.jpg",
+      "context_caption": "Distant Blues, framed"
     },
     {
       "id": "fractal-blues",
@@ -71,7 +81,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": ""
+      "description": "",
+      "context": "",
+      "context_caption": ""
     },
     {
       "id": "falling",
@@ -84,7 +96,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": ""
+      "description": "",
+      "context": "",
+      "context_caption": ""
     },
     {
       "id": "dazzle-dim",
@@ -97,7 +111,9 @@ window.CONTENT = {
       "output": "CNC pen plotter",
       "wide": false,
       "photo": false,
-      "description": ""
+      "description": "",
+      "context": "img/ctx-dazzle-dim.jpg",
+      "context_caption": "Dazzle Dim, framed"
     },
     {
       "id": "fracture-head",
@@ -110,7 +126,9 @@ window.CONTENT = {
       "output": "Spray paint · CNC pen plotter",
       "wide": false,
       "photo": false,
-      "description": ""
+      "description": "",
+      "context": "img/ctx-fracture-head.jpg",
+      "context_caption": "Fracture Head, framed"
     },
     {
       "id": "disassembly",
@@ -123,7 +141,9 @@ window.CONTENT = {
       "output": "CNC pen plotter",
       "wide": false,
       "photo": true,
-      "description": ""
+      "description": "",
+      "context": "",
+      "context_caption": ""
     },
     {
       "id": "dazzle-mass",
@@ -136,7 +156,9 @@ window.CONTENT = {
       "output": "Archival inkjet",
       "wide": false,
       "photo": true,
-      "description": ""
+      "description": "",
+      "context": "",
+      "context_caption": ""
     }
   ]
 };

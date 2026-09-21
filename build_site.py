@@ -10,6 +10,21 @@ BARE = bool(os.environ.get("BARE"))
 OUT = os.path.join(S, "works", "bare" if BARE else "")
 os.makedirs(OUT, exist_ok=True)
 PHOTO = {"dazzle-mass", "disassembly"}
+G = "G:/My Drive/Personal/Abstract_Drawing_Experiments/Art_Brand/All_Work_Promo/GrabMe"
+CONTEXT = {  # work id -> (source photo, caption)
+  "duality": ("17904020-b4e7-11f0-aad9-5914333ed914~2.jpg", "Duality, framed"),
+  "deep-blue": ("b0e279c0-e852-11f0-afdc-ed254b3f6072.jpg", "Deep Blue, framed"),
+  "distant-blues": ("7ba04180-bdd1-11f0-8bbd-fdd8513e2933.jpg", "Distant Blues, framed"),
+  "dazzle-dim": ("Dazzle_Dim_25x31.jpg", "Dazzle Dim, framed"),
+  "fracture-head": ("Fraxture_Head_25x31.jpg", "Fracture Head, framed"),
+}
+if not BARE:
+    from PIL import Image
+    os.makedirs(os.path.join(S, "works", "img"), exist_ok=True)
+    for k, (f, _) in CONTEXT.items():
+        dst = os.path.join(S, "works", "img", "ctx-" + k + ".jpg")
+        if not os.path.exists(dst):
+            im = Image.open(os.path.join(G, f)).convert("RGB"); im.thumbnail((1800, 1800)); im.save(dst, quality=86)
 strip = lambda h: re.sub(r"<[^>]+>", "", h)
 
 content = {
@@ -30,18 +45,84 @@ content = {
   "process": [] if BARE else COPY["process"],
   "process_note": "Press play · 90 seconds · sound on",
   "works_label": "Nine works · 2024 — 2025 · all available",
+  "insitu_label": "Framed and on the wall",
+  "hide_thesis": BARE,
+  "toggle_art": "Artwork",
+  "toggle_ctx": "In situ",
   "list_label": "Retail prices · framed originals and prints",
   "footer_left": "Evan Emery · Phoenix, Arizona",
   "footer_right": "Selected works · 2024 — 2025",
   "works": [
     {"id": k, "title": t, "year": y, "medium": m, "size": sz, "price": pr, "tools": tools, "output": an,
-     "wide": wide, "photo": k in PHOTO, "description": "" if BARE else strip(d)}
+     "wide": wide, "photo": k in PHOTO, "description": "" if BARE else strip(d),
+     "context": ("img/ctx-" + k + ".jpg") if k in CONTEXT else "", "context_caption": CONTEXT[k][1] if k in CONTEXT else ""}
     for (k, t, y, m, sz, pr, tools, an, wide), d in zip(works, descs)
   ],
 }
 open(os.path.join(OUT, "content.js"), "w", encoding="utf-8").write(
   "// Edit any text here. Save, commit, push — the page updates.\n"
   "window.CONTENT = " + json.dumps(content, ensure_ascii=False, indent=2) + ";\n")
+
+
+DIAGRAM = """<svg class="dia" viewBox="0 0 1200 660" role="img" aria-labelledby="diaT diaD">
+<title id="diaT">Thesis and concepts</title>
+<desc id="diaD">Pure form held against applied overlay; code writes the mathematics that acts on the body; the result is pressed into cyanotype, plotted ink and pigment.</desc>
+<defs>
+  <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="0.9" fill="#161616" opacity=".28"/></pattern>
+  <pattern id="dz" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><rect width="7" height="14" fill="#161616"/></pattern>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#161616"/></marker>
+</defs>
+<rect width="1200" height="660" fill="#f4f0ea"/><rect width="1200" height="660" fill="url(#dots)"/>
+
+<!-- tier labels -->
+<g class="lab"><text x="24" y="60">01 · Thesis</text><text x="24" y="300">02 · System</text><text x="24" y="510">03 · Output</text></g>
+
+<!-- ROW 1: form vs overlay -->
+<g class="box"><rect x="150" y="40" width="390" height="160"/>
+  <text class="h" x="170" y="72">PURE FORM</text><text class="s" x="170" y="94">head · cube · sphere</text>
+  <g stroke="#161616" stroke-width="2" fill="none">
+    <ellipse cx="215" cy="150" rx="22" ry="28"/><path d="M215 178 v14 M204 192 h22"/>
+    <path d="M300 128 l30 -17 l30 17 v34 l-30 17 l-30 -17 z M300 128 l30 17 l30 -17 M330 145 v51"/>
+    <circle cx="430" cy="150" r="28"/><path d="M402 150 a28 12 0 0 0 56 0" stroke-dasharray="3 3"/>
+  </g></g>
+<g class="box"><rect x="660" y="40" width="390" height="160"/>
+  <text class="h" x="680" y="72">APPLIED OVERLAY</text><text class="s" x="680" y="94">dazzle camouflage · pattern that dissolves</text><text class="s" x="680" y="110">the readable shape</text>
+  <g stroke="#161616" stroke-width="2"><rect x="700" y="118" width="70" height="70" fill="url(#dz)"/><circle cx="850" cy="153" r="36" fill="url(#dz)"/><ellipse cx="970" cy="153" rx="24" ry="32" fill="url(#dz)"/></g></g>
+<path d="M545 150 H655" stroke="#161616" stroke-width="2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text class="s" x="600" y="128" text-anchor="middle">held in</text><text class="s" x="600" y="142" text-anchor="middle">opposition</text>
+<text class="cap" x="600" y="232" text-anchor="middle">Form and surface held in opposition. Surface prevails.</text>
+
+<!-- authorship arrow -->
+<path d="M855 200 V270" stroke="#161616" stroke-width="2" marker-end="url(#ah)"/>
+<text class="s" x="870" y="240">authorship of the overlay: drawn → written</text>
+
+<!-- ROW 2: code -> mathematics -> body -->
+<g class="box"><rect x="150" y="280" width="250" height="140"/>
+  <text class="h" x="170" y="312">CODE</text><text class="s" x="170" y="334">Rhino · Grasshopper · Blender</text><text class="s" x="170" y="352">I write the system</text><text class="s" x="170" y="368">that finds the pattern.</text></g>
+<path d="M405 350 H470" stroke="#161616" stroke-width="2" marker-end="url(#ah)"/>
+<g class="box"><rect x="475" y="280" width="290" height="140"/>
+  <text class="h" x="495" y="312">MATHEMATICS</text><text class="s" x="495" y="334">fractal · vector field</text><text class="s" x="495" y="350">recursive displacement · height field</text><text class="s" x="495" y="366">voxel · survey annotation</text><text class="s" x="495" y="392">Behaves according to its own nature.</text></g>
+<path d="M770 350 H835" stroke="#161616" stroke-width="2" marker-end="url(#ah)"/>
+<text class="s" x="802" y="340" text-anchor="middle">acts on</text>
+<g class="box dark"><rect x="840" y="280" width="250" height="140"/>
+  <text class="h" x="860" y="312">THE BODY</text><text class="s" x="860" y="334">head · figure · torso</text><text class="s" x="860" y="352">The surface the logic acts upon.</text><text class="s" x="860" y="378">A person and a proof at once.</text></g>
+
+<!-- to output -->
+<path d="M965 420 V450 H300" stroke="#161616" stroke-width="2" fill="none"/>
+<path d="M300 450 V488" stroke="#161616" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M632 450 V488" stroke="#161616" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M965 450 V488" stroke="#161616" stroke-width="2" marker-end="url(#ah)"/>
+<text class="s" x="632" y="442" text-anchor="middle">pressed into cotton rag</text>
+
+<!-- ROW 3: outputs -->
+<g class="box"><rect x="150" y="490" width="300" height="120"/>
+  <text class="h" x="170" y="522">CYANOTYPE</text><text class="s" x="170" y="544">the blueprint's own chemistry</text><text class="s" x="170" y="562">geometry that was never photographed</text></g>
+<g class="box"><rect x="482" y="490" width="300" height="120"/>
+  <text class="h" x="502" y="522">PEN PLOTTER</text><text class="s" x="502" y="544">white ink · one stroke at a time</text><text class="s" x="502" y="562">CNC plotter · AxiDraw</text></g>
+<g class="box"><rect x="815" y="490" width="300" height="120"/>
+  <text class="h" x="835" y="522">PIGMENT</text><text class="s" x="835" y="544">archival inkjet · spray paint</text><text class="s" x="835" y="562">on fine art paper</text></g>
+<text class="cap" x="632" y="644" text-anchor="middle">The digital carries no weight until it is pressed into paper.</text>
+</svg>"""
 
 rel = "../" if BARE else ""
 page = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -117,23 +198,49 @@ section.s {{ padding-block:56px; }}
 .lb dt {{ color:#7b7b79; letter-spacing:.12em; text-transform:uppercase; }} .lb dd {{ margin:0; }} .lb dd.price {{ font-weight:700; }}
 .lb .desc {{ margin-top:22px; padding-top:18px; border-top:1px solid var(--rule); font-size:14.5px; line-height:1.55; color:#2a2a2a; }}
 .lb .desc:empty {{ display:none; }}
-.lb .stage {{ position:relative; display:flex; align-items:center; justify-content:center; padding:40px 24px; min-height:100vh; }}
+.lb .stage {{ position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:40px 24px 100px; min-height:100vh; }}
+.lb .view {{ display:flex; gap:8px; }}
+.lb .view button {{ background:var(--paper); border:2px solid var(--ink); box-shadow:3px 3px 0 #cfccc3; padding:8px 14px; cursor:pointer; font-family:'Space Mono', monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; }}
+.lb .view button[aria-pressed="true"] {{ background:var(--ink); color:var(--paper); }}
+.lb .view button:focus-visible {{ outline:2px solid var(--blue); outline-offset:3px; }}
 .lb .frame {{ background:var(--paper); border:2px solid var(--ink); padding:14px; box-shadow:6px 6px 0 #cfccc3; max-width:100%; }}
 .lb .frame.raw {{ background:none; border:0; padding:0; }}
-.lb .frame img {{ display:block; max-height:calc(100vh - 110px); max-width:100%; width:auto; height:auto; }}
+.lb .frame img {{ display:block; max-height:calc(100vh - 190px); max-width:100%; width:auto; height:auto; }}
 .lb .ctl {{ position:fixed; top:calc(14px + env(safe-area-inset-top,0px)); right:16px; display:flex; gap:8px; z-index:2; }}
 .lb .ctl button, .lb .arrow {{ background:var(--paper); border:2px solid var(--ink); box-shadow:3px 3px 0 #cfccc3; width:42px; height:42px; cursor:pointer; font-family:'Space Mono', monospace; font-size:16px; display:flex; align-items:center; justify-content:center; }}
 .lb .ctl button:hover, .lb .arrow:hover {{ transform:translate(-1px,-1px); box-shadow:4px 4px 0 #cfccc3; }}
 .lb .ctl button:focus-visible, .lb .arrow:focus-visible {{ outline:2px solid var(--blue); outline-offset:3px; }}
-.lb .arrow {{ position:fixed; top:50%; transform:translateY(-50%); z-index:2; }}
-.lb .arrow.prev {{ left:356px; }} .lb .arrow.next {{ right:16px; }}
+.lb .arrow {{ position:fixed; bottom:calc(24px + env(safe-area-inset-bottom,0px)); z-index:2; }}
+.lb .arrow.prev {{ right:74px; }} .lb .arrow.next {{ right:24px; }}
 @media (max-width:900px) {{
   .lb {{ grid-template-columns:1fr; }}
   .lb .panel {{ order:2; min-height:0; padding-top:28px; }}
   .lb .stage {{ order:1; min-height:0; padding:calc(70px + env(safe-area-inset-top,0px)) 16px 24px; }}
   .lb .frame img {{ max-height:70vh; }}
-  .lb .arrow.prev {{ left:16px; }} .lb .arrow {{ top:auto; bottom:calc(16px + env(safe-area-inset-bottom,0px)); transform:none; }}
+  .lb .stage {{ padding-bottom:24px; }}
+  .lb .arrow.prev {{ right:66px; }} .lb .arrow.next {{ right:16px; }}
 }}
+/* thesis diagram */
+.dia {{ width:100%; height:auto; display:block; border:2px solid var(--ink); box-shadow:4px 4px 0 var(--rule); background:var(--bg); }}
+.dia .lab text {{ font-family:'Space Mono', monospace; font-size:11px; letter-spacing:.22em; text-transform:uppercase; fill:#6f6e6b; }}
+.dia .box rect {{ fill:#f9f7f2; stroke:#161616; stroke-width:2; }}
+.dia .box.dark rect {{ fill:#12305e; }}
+.dia .box.dark text {{ fill:#f4f0ea; }}
+.dia .box.dark .s {{ fill:#c9d2e3; }}
+.dia .h {{ font-family:'Chakra Petch', sans-serif; font-weight:700; font-size:20px; fill:#161616; }}
+.dia .s {{ font-family:'Space Mono', monospace; font-size:11.5px; fill:#4a4a48; }}
+.dia .cap {{ font-family:'Chakra Petch', sans-serif; font-weight:700; font-size:16px; text-transform:uppercase; letter-spacing:.04em; fill:#161616; }}
+.dia-wrap {{ overflow-x:auto; }}
+.dia-wrap svg {{ min-width:720px; }}
+/* in situ */
+.ctx {{ display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }}
+@media (max-width:900px) {{ .ctx {{ grid-template-columns:repeat(2, 1fr); gap:14px; }} }}
+.ctx button {{ background:none; border:0; padding:0; text-align:left; cursor:pointer; display:flex; flex-direction:column; gap:10px; }}
+.ctx .ph {{ aspect-ratio:4/3; overflow:hidden; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--rule); transition:transform .18s ease, box-shadow .18s ease; }}
+.ctx button:hover .ph, .ctx button:focus-visible .ph {{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--rule); }}
+.ctx button:focus-visible {{ outline:2px solid var(--blue); outline-offset:4px; }}
+.ctx img {{ width:100%; height:100%; object-fit:cover; display:block; }}
+.ctx .cap {{ font-family:'Space Mono', monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; }}
 /* process */
 .proc {{ display:grid; grid-template-columns:minmax(260px, 420px) 1fr; gap:48px; align-items:center; }}
 @media (max-width:800px) {{ .proc {{ grid-template-columns:1fr; gap:28px; }} }}
@@ -163,7 +270,7 @@ footer .in {{ max-width:1400px; margin:0 auto; padding:22px 24px; display:flex; 
 </style></head><body>
 
 <nav class="nav"><div class="in"><span class="brand cp" data-t="name"></span>
-<ul><li><a href="#works">Works</a></li><li><a href="#process">Process</a></li><li id="navAbout"><a href="#about">About</a></li><li><a href="#list">Available works</a></li><li><a href="#list">Contact</a></li></ul></div></nav>
+<ul><li><a href="#works">Works</a></li><li id="navThesis"><a href="#thesis">Thesis</a></li><li id="navInsitu"><a href="#insitu">In situ</a></li><li><a href="#process">Process</a></li><li id="navAbout"><a href="#about">About</a></li><li><a href="#list">Available works</a></li><li><a href="#list">Contact</a></li></ul></div></nav>
 
 <header class="hero">
   <img src="{rel}img/deep-blue.jpg" alt="Deep Blue, cyanotype print, 2025"><div class="shade"></div>
@@ -178,10 +285,20 @@ footer .in {{ max-width:1400px; margin:0 auto; padding:22px 24px; display:flex; 
   <div class="body" id="statementBody"></div>
 </div></section>
 
+<section class="s" id="thesis" style="background:var(--bg2)"><div class="wrap">
+  <div class="hd"><h2 class="cp">Thesis</h2><span class="lab">Form · surface · system · material</span></div>
+  <div class="dia-wrap">{DIAGRAM}</div>
+</div></section>
+
 <section class="s" id="works"><div class="wrap">
   <div class="hd"><h2 class="cp">Works</h2><span class="lab" data-t="works_label"></span></div>
   <div class="grid" id="grid"></div>
   <div class="hint lab">Select any work to view it large with its details</div>
+</div></section>
+
+<section class="s" id="insitu"><div class="wrap">
+  <div class="hd"><h2 class="cp">In situ</h2><span class="lab" data-t="insitu_label"></span></div>
+  <div class="ctx" id="ctx"></div>
 </div></section>
 
 <section class="s" id="process" style="background:var(--blue2); color:#f4f0ea"><div class="wrap">
@@ -218,7 +335,8 @@ footer .in {{ max-width:1400px; margin:0 auto; padding:22px 24px; display:flex; 
   <div class="panel"><div class="num" id="lbNum"></div><h3 class="cp" id="lbTitle"></h3>
     <dl><dt>Year</dt><dd id="lbYear"></dd><dt>Medium</dt><dd id="lbMedium"></dd><dt>Size</dt><dd id="lbSize"></dd><dt>Tools</dt><dd id="lbTools"></dd><dt>Output</dt><dd id="lbOut"></dd><dt>Retail</dt><dd class="price" id="lbPrice"></dd></dl>
     <div class="desc" id="lbDesc"></div></div>
-  <div class="stage"><div class="frame" id="lbFrame"><img id="lbImg" src="" alt=""></div></div>
+  <div class="stage"><div class="frame" id="lbFrame"><img id="lbImg" src="" alt=""></div>
+    <div class="view" id="lbView" hidden><button type="button" id="vArt" aria-pressed="true"></button><button type="button" id="vCtx" aria-pressed="false"></button></div></div>
   <div class="ctl"><button type="button" id="lbClose" aria-label="Close">✕</button></div>
   <button type="button" class="arrow prev" id="lbPrev" aria-label="Previous work">←</button>
   <button type="button" class="arrow next" id="lbNext" aria-label="Next work">→</button>
@@ -226,7 +344,7 @@ footer .in {{ max-width:1400px; margin:0 auto; padding:22px 24px; display:flex; 
 
 <script src="content.js"></script>
 <script>
-const C = window.CONTENT, IMG = '{rel}img/';
+const C = window.CONTENT, IMG = '{rel}img/', rel = '{rel}';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]));
 const paras = xs => (xs || []).map(x => '<p>' + esc(x) + '</p>').join('');
@@ -238,18 +356,32 @@ $('processTag').textContent = C.process_tagline || ''; $('processBody').innerHTM
 if (!C.about_tagline && !(C.about || []).length) {{ $('about').hidden = true; $('navAbout').hidden = true; }} else $('aboutBody').innerHTML = paras(C.about);
 $('grid').innerHTML = C.works.map((w, i) => `<button class="card${{(w.photo || w.wide) ? ' fill' : ''}}" data-i="${{i}}" aria-label="Open ${{esc(w.title)}}"><div class="box"><img src="${{IMG + w.id}}.jpg" alt="${{esc(w.title)}}" loading="${{i < 5 ? 'eager' : 'lazy'}}"></div><div class="cap"><span class="t">${{esc(w.title)}}</span><span class="n">${{String(i+1).padStart(2,'0')}}</span><span class="p">${{esc(w.price)}}</span></div></button>`).join('');
 $('rows').innerHTML = C.works.map((w, i) => `<tr><td>${{i+1}}</td><td>${{esc(w.title)}}</td><td>${{esc(w.year)}}</td><td>${{esc(w.medium)}}</td><td>${{esc(w.size)}}</td><td>${{esc(w.price)}}</td></tr>`).join('');
-const lb = $('lb'); let cur = 0, lastFocus = null;
-function show(i) {{
+const ctxWorks = C.works.map((w, i) => [w, i]).filter(([w]) => w.context);
+$('ctx').innerHTML = ctxWorks.map(([w, i]) => `<button type="button" data-i="${{i}}" aria-label="Open ${{esc(w.title)}} in situ"><div class="ph"><img src="${{rel}}${{w.context}}" alt="${{esc(w.context_caption)}}" loading="lazy"></div><div class="cap">${{esc(w.context_caption)}}</div></button>`).join('');
+if (!ctxWorks.length) {{ $('insitu').hidden = true; $('navInsitu').hidden = true; }}
+if (C.hide_thesis) {{ $('thesis').hidden = true; $('navThesis').hidden = true; }}
+$('vArt').textContent = C.toggle_art; $('vCtx').textContent = C.toggle_ctx;
+const lb = $('lb'); let cur = 0, lastFocus = null, mode = 'art';
+function setMode(m) {{
+  const w = C.works[cur]; mode = (m === 'ctx' && w.context) ? 'ctx' : 'art';
+  const im = $('lbImg'); im.src = mode === 'ctx' ? rel + w.context : IMG + w.id + '.jpg'; im.alt = mode === 'ctx' ? w.context_caption : w.title;
+  $('lbFrame').classList.toggle('raw', mode === 'ctx' || !!w.photo);
+  $('vArt').setAttribute('aria-pressed', mode === 'art'); $('vCtx').setAttribute('aria-pressed', mode === 'ctx');
+  $('lbView').hidden = !w.context;
+}}
+function show(i, m) {{
   cur = (i + C.works.length) % C.works.length; const w = C.works[cur];
   $('lbNum').textContent = String(cur+1).padStart(2,'0') + ' / ' + String(C.works.length).padStart(2,'0');
   $('lbTitle').textContent = w.title; $('lbYear').textContent = w.year; $('lbMedium').textContent = w.medium; $('lbSize').textContent = w.size;
   $('lbTools').textContent = w.tools; $('lbOut').textContent = w.output; $('lbPrice').textContent = w.price;
   $('lbDesc').innerHTML = w.description ? paras([w.description]) : '';
-  const im = $('lbImg'); im.src = IMG + w.id + '.jpg'; im.alt = w.title; $('lbFrame').classList.toggle('raw', !!w.photo); lb.scrollTop = 0;
+  setMode(m || 'art'); lb.scrollTop = 0;
 }}
-function open(i) {{ lastFocus = document.activeElement; show(i); lb.hidden = false; document.body.style.overflow = 'hidden'; $('lbClose').focus(); }}
+function open(i, m) {{ lastFocus = document.activeElement; show(i, m); lb.hidden = false; document.body.style.overflow = 'hidden'; $('lbClose').focus(); }}
 function close() {{ lb.hidden = true; document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); }}
 document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => open(+c.dataset.i)));
+document.querySelectorAll('#ctx button').forEach(c => c.addEventListener('click', () => open(+c.dataset.i, 'ctx')));
+$('vArt').addEventListener('click', () => setMode('art')); $('vCtx').addEventListener('click', () => setMode('ctx'));
 $('lbClose').addEventListener('click', close); $('lbPrev').addEventListener('click', () => show(cur-1)); $('lbNext').addEventListener('click', () => show(cur+1));
 document.addEventListener('keydown', e => {{ if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur-1); if (e.key === 'ArrowRight') show(cur+1); }});
 let tx = null; lb.addEventListener('touchstart', e => tx = e.touches[0].clientX, {{passive:true}});

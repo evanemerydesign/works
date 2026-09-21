@@ -25,6 +25,10 @@ window.CONTENT = {
   ],
   "process_note": "Press play · 90 seconds · sound on",
   "works_label": "Nine works · 2024 — 2025 · all available",
+  "insitu_label": "Framed and on the wall",
+  "hide_thesis": false,
+  "toggle_art": "Artwork",
+  "toggle_ctx": "In situ",
   "list_label": "Retail prices · framed originals and prints",
   "footer_left": "Evan Emery · Phoenix, Arizona",
   "footer_right": "Selected works · 2024 — 2025",
@@ -40,7 +44,9 @@ window.CONTENT = {
       "output": "CNC pen plotter",
       "wide": true,
       "photo": false,
-      "description": "Two systems read a single signal and disagree. Continuous linework faces a point cloud across a plotted field — one describing the head as gesture, the other as discrete data. Neither is a translation of the other; they are parallel accounts of the same subject, and the space between them is the work. 1,904 nodes, laid down in white ink by plotter."
+      "description": "Two systems read a single signal and disagree. Continuous linework faces a point cloud across a plotted field — one describing the head as gesture, the other as discrete data. Neither is a translation of the other; they are parallel accounts of the same subject, and the space between them is the work. 1,904 nodes, laid down in white ink by plotter.",
+      "context": "img/ctx-duality.jpg",
+      "context_caption": "Duality, framed"
     },
     {
       "id": "deep-blue",
@@ -53,7 +59,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": "Two heads emerge from a field of fractal geometry, the brighter values pushed forward until the face stands in relief. The mathematics is not applied to the figure as decoration; it constitutes the figure, and the figure permits it. Exposed in cyanotype — the blueprint's own chemistry, receiving a form that was never photographed because it never stood anywhere."
+      "description": "Two heads emerge from a field of fractal geometry, the brighter values pushed forward until the face stands in relief. The mathematics is not applied to the figure as decoration; it constitutes the figure, and the figure permits it. Exposed in cyanotype — the blueprint's own chemistry, receiving a form that was never photographed because it never stood anywhere.",
+      "context": "img/ctx-deep-blue.jpg",
+      "context_caption": "Deep Blue, framed"
     },
     {
       "id": "distant-blues",
@@ -66,7 +74,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": "A single figure raised out of a height field until the body reads as landmass. The same operation that turns elevation data into terrain turns a person into country — contour, ridge, the long shallow grade of a shoulder. What the mathematics cannot distinguish between is precisely the point."
+      "description": "A single figure raised out of a height field until the body reads as landmass. The same operation that turns elevation data into terrain turns a person into country — contour, ridge, the long shallow grade of a shoulder. What the mathematics cannot distinguish between is precisely the point.",
+      "context": "img/ctx-distant-blues.jpg",
+      "context_caption": "Distant Blues, framed"
     },
     {
       "id": "fractal-blues",
@@ -79,7 +89,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": "Recursive displacement folds the profile into itself, self-similar across six octaves. Approach it at any scale and the same logic is found running. Here the overlay has not merely covered the form — it has replaced its interior, and the head survives as an outline around a process that has no interest in faces."
+      "description": "Recursive displacement folds the profile into itself, self-similar across six octaves. Approach it at any scale and the same logic is found running. Here the overlay has not merely covered the form — it has replaced its interior, and the head survives as an outline around a process that has no interest in faces.",
+      "context": "",
+      "context_caption": ""
     },
     {
       "id": "falling",
@@ -92,7 +104,9 @@ window.CONTENT = {
       "output": "Cyanotype",
       "wide": false,
       "photo": false,
-      "description": "A figure caught mid-descent, extruded and inverted so the mass unspools downward. Gravity here is not a force in the world but an operation on a height map — falling as arithmetic. The body obeys anyway, and the result is legible as motion before it is legible as math."
+      "description": "A figure caught mid-descent, extruded and inverted so the mass unspools downward. Gravity here is not a force in the world but an operation on a height map — falling as arithmetic. The body obeys anyway, and the result is legible as motion before it is legible as math.",
+      "context": "",
+      "context_caption": ""
     },
     {
       "id": "dazzle-dim",
@@ -105,7 +119,9 @@ window.CONTENT = {
       "output": "CNC pen plotter",
       "wide": false,
       "photo": false,
-      "description": "A portrait resolved from a swarm of 4,120 vector arrows, each carrying a direction and a magnitude sampled across the head. There is no contour and no edge anywhere in the drawing. The likeness exists only as a consequence of how the field behaves, and disappears if the field is asked to behave otherwise."
+      "description": "A portrait resolved from a swarm of 4,120 vector arrows, each carrying a direction and a magnitude sampled across the head. There is no contour and no edge anywhere in the drawing. The likeness exists only as a consequence of how the field behaves, and disappears if the field is asked to behave otherwise.",
+      "context": "img/ctx-dazzle-dim.jpg",
+      "context_caption": "Dazzle Dim, framed"
     },
     {
       "id": "fracture-head",
@@ -118,7 +134,9 @@ window.CONTENT = {
       "output": "Spray paint · CNC pen plotter",
       "wide": false,
       "photo": false,
-      "description": "A faceted profile split along an algorithmic seam. Fracture physics run across 2,048 faces of low-poly geometry, then pressed into paper with spray paint and plotter ink — a simulated break given a surface that can actually hold pigment. The violence is computational; the residue is physical."
+      "description": "A faceted profile split along an algorithmic seam. Fracture physics run across 2,048 faces of low-poly geometry, then pressed into paper with spray paint and plotter ink — a simulated break given a surface that can actually hold pigment. The violence is computational; the residue is physical.",
+      "context": "img/ctx-fracture-head.jpg",
+      "context_caption": "Fracture Head, framed"
     },
     {
       "id": "disassembly",
@@ -131,7 +149,9 @@ window.CONTENT = {
       "output": "CNC pen plotter",
       "wide": false,
       "photo": true,
-      "description": "An isometric mass constructed block by block, its edges shaking loose into fragments. Drawn at thirty degrees on graph paper — the oldest apparatus of architectural representation — and coming apart in the course of being drawn. The grid that makes the form describable is the same grid it dissolves into."
+      "description": "An isometric mass constructed block by block, its edges shaking loose into fragments. Drawn at thirty degrees on graph paper — the oldest apparatus of architectural representation — and coming apart in the course of being drawn. The grid that makes the form describable is the same grid it dissolves into.",
+      "context": "",
+      "context_caption": ""
     },
     {
       "id": "dazzle-mass",
@@ -144,7 +164,9 @@ window.CONTENT = {
       "output": "Archival inkjet",
       "wide": false,
       "photo": true,
-      "description": "A gridded volume carved into a figure, the cut faces flashing dazzle pattern where the form breaks. The thesis argument stated without hedging: solid geometry beneath, camouflage above, and the eye unable to hold both at once. Pattern does not hide the mass here. It contests it."
+      "description": "A gridded volume carved into a figure, the cut faces flashing dazzle pattern where the form breaks. The thesis argument stated without hedging: solid geometry beneath, camouflage above, and the eye unable to hold both at once. Pattern does not hide the mass here. It contests it.",
+      "context": "",
+      "context_caption": ""
     }
   ]
 };
